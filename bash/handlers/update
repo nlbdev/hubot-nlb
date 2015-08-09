@@ -1,0 +1,9 @@
+#!/bin/bash
+SELF_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $SELF_PATH/../..
+pwd
+git pull origin master 2>&1 
+echo "ferdig"
+#echo "to reload all scripts run: <yourbotname> die"
+
+exit 0
