@@ -1,6 +1,0 @@
-#!/bin/bash
-echo "Hallo.."
-sleep 10s;
-echo "Søvnige Verden!"
-
-exit 0
