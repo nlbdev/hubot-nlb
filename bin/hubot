@@ -13,9 +13,15 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "$DIR/.."
 
 npm install
+export HUBOT_LOG_LEVEL="debug"
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
 . ~/config/set-env.sh
+
+if [[ ! -e "bash" ]] ; then
+    cp -R node_modules/hubot-script-shellcmd/bash .
+fi
+export HUBOT_SHELLCMD_KEYWORD='skript'
 
 if [ "$HUBOT_NAME" = "" ]; then
   export HUBOT_NAME="`hostname`"
