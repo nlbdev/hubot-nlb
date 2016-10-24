@@ -2,6 +2,13 @@
 
 set -e
 
+# something like this should be in the crontab:
+# */1 * * * * BOT_NAME="test-server" "$HOME/hubot/bin/hubot >/tmp/hubot.log 2>&1
+ALREADY_RUNNING="`ps axo pid,command | grep -v grep | grep node_modules/.bin/hubot | awk '{print $1}' | wc -l`"
+if [[ "$ALREADY_RUNNING" -gt "0" ]] ; then
+  exit 0
+fi
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "$DIR/.."
 
