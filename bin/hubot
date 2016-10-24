@@ -1,8 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "$DIR/.."
 
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
-exec node_modules/.bin/hubot --name "NLB" "$@"
+. ~/config/set-env.sh
+
+exec node_modules/.bin/hubot --name "NLB" --adapter slack "$@"
