@@ -17,4 +17,4 @@ export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
 . ~/config/set-env.sh
 
-exec node_modules/.bin/hubot --name "NLB" --adapter slack "$@"
+exec node_modules/.bin/hubot --name "NLB" --adapter webhook-adapter "$@"
