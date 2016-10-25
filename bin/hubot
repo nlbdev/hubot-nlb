@@ -25,4 +25,4 @@ if [ "$HUBOT_NAME" = "master" ]; then
   export HUBOT_NAME="NLB"
 fi
 
-exec node_modules/.bin/hubot --name "$HUBOT_NAME" --adapter webhook-adapter "$@"
+exec node_modules/.bin/hubot --name "$HUBOT_NAME" --adapter slack "$@"
