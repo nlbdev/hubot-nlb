@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "$DIR/../.."
+
+HUBOT_PID="`ps axo pid,command | grep -v grep | grep node_modules/.bin/hubot | awk '{print $1}'`"
+kill $HUBOT_PID
+
+exit 0

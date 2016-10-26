@@ -3,5 +3,6 @@
   "hubot-help",
   "hubot-heroku-keepalive",
   "hubot-redis-brain",
-  "hubot-rules"
+  "hubot-rules",
+  "hubot-script-shellcmd"
 ]
