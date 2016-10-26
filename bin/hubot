@@ -21,7 +21,7 @@ export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 if [[ ! -e "bash" ]] ; then
     cp -R node_modules/hubot-script-shellcmd/bash .
 fi
-export HUBOT_SHELLCMD_KEYWORD='skript'
+export HUBOT_SHELLCMD_KEYWORD='script'
 
 if [ "$HUBOT_NAME" = "" ]; then
   export HUBOT_NAME="`hostname`"

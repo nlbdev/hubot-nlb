@@ -8,7 +8,7 @@ echo "Sure! I'll upgrade Pipeline 2 for you; the engine, Web UI, and modules."
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 cd "$DIR"
-NO_MESSAGES=1 ./pipeline-stop
+NO_MESSAGES=1 ./pipeline.stop
 
 # Backup database and about page
 TIMESTAMP="`date --utc --rfc-3339=seconds | sed 's/+.*//' | sed 's/ /_/g' | sed 's/[^0-9_]/-/g'`"
@@ -67,7 +67,7 @@ if [[ "$RET" -ne "0" ]]; then
 fi
 
 cd "$DIR"
-NO_MESSAGES=1 ./pipeline-stop
+NO_MESSAGES=1 ./pipeline.stop
 
 # Restore database and about page
 if [[ -d "$HOME/webui-db-backups/dp2webui.bak-$TIMESTAMP" ]] ; then
@@ -79,7 +79,7 @@ if [[ -d "$HOME/webui-db-backups/dp2webui.bak-$TIMESTAMP" ]] ; then
 fi
 
 cd "$DIR"
-NO_MESSAGES=1 ./pipeline-start
+NO_MESSAGES=1 ./pipeline.start
 
 echo "Ok, I'm done. Let's hope that did the trick..."
 

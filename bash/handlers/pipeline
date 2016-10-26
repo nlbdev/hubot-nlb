@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Available commands:"
+ls pipeline.* | sed 's/^pipeline\./pipeline /'
+
+exit 0
+

@@ -28,10 +28,12 @@ check_error(){
 me="$(basename "$0")"; me="${me/\.\/}"
 if [[ "$me" == "handler" ]]; then 
   _log "$*"
-  handler1="handlers/$1.$2.$3"
-  handler2="handlers/$1"
-  [[ -f "$handler1" ]] && $handler1 "$2" "$3" "$4" 2>&1 ;
-  [[ -f "$handler2" ]] && shift && exec $handler2 "$@"  ;
+  handler3="handlers/$1.$2.$3"
+  handler2="handlers/$1.$2"
+  handler1="handlers/$1"
+  [[ -f "$handler3" ]] && shift && shift && shift && exec $handler3 "$@" ;
+  [[ -f "$handler2" ]] && shift && shift && exec $handler2 "$@" ;
+  [[ -f "$handler1" ]] && shift && exec $handler1 "$@" ;
   [[ ! -n $1 ]] && _usage 
 fi
 exit 0
