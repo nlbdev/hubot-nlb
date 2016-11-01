@@ -8,7 +8,7 @@ _log(){
 }
 
 _usage(){
-  str="tilgjengelige kommandoer:\n"
+  str="Available commands:\n"
   str="$str""$(ls "$SELF_PATH/handlers" | awk '{print "  "$1}' )"
   echo -e "$str"
 }

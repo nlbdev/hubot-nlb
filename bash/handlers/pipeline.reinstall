@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
 . ~/config/set-env.sh
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
