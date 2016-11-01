@@ -37,7 +37,7 @@ updater/linux/pipeline-updater \
 CONFIG_YML="/opt/daisy-pipeline2/cli/config.yml"
 if [ ! -f $CONFIG_YML ]; then
     echo "Creating config.yml for the CLI" >> $LOG 2>&1
-    mdkir -p "/opt/daisy-pipeline2/cli"
+    mkdir -p "/opt/daisy-pipeline2/cli"
     echo 'host: http://localhost' >> $CONFIG_YML
     echo 'port: 8181' >> $CONFIG_YML
     echo 'ws_path: ws' >> $CONFIG_YML
