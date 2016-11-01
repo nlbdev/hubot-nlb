@@ -30,6 +30,11 @@ done
 
 echo "See $REPO_URL/pipeline-updates for more." >> $LOG 2>&1
 
-cat $LOG
+LOG2="`tempfile`"
+head -n 1 $LOG >> $LOG2
+echo >> $LOG2
+tail -n +2 $LOG >> $LOG2
+cat $LOG2
+rm $LOG $LOG2
 
 exit 0

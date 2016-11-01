@@ -23,6 +23,11 @@ CURRENT_TIMESTAMP="`curl "$REPO_URL/pipeline-updates/$CURRENT_VERSION" 2>/dev/nu
 echo "Pipeline 2 currently installed: $CURRENT_VERSION" >> $LOG 2>&1
 echo "This version of Pipeline 2 was built: $CURRENT_TIMESTAMP" >> $LOG 2>&1
 
-cat $LOG
+LOG2="`tempfile`"
+head -n 1 $LOG >> $LOG2
+echo >> $LOG2
+tail -n +2 $LOG >> $LOG2
+cat $LOG2
+rm $LOG $LOG2
 
 exit 0
