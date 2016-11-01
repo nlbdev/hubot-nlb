@@ -31,7 +31,7 @@ updater/linux/pipeline-updater \
     -service "$REPO_URL/pipeline-updates" \
     -version "$VERSION" \
     $FORCE \
-    >> $LOG 2>&1
+    | grep -v "copying to" >> $LOG 2>&1
 
 LOG2="`tempfile`"
 head -n 1 $LOG >> $LOG2
