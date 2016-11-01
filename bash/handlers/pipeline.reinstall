@@ -4,6 +4,8 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+LOG="`tempfile`"
+
 . ~/config/set-env.sh
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
@@ -25,4 +27,8 @@ rm minimal.zip
 mv daisy-pipeline/* .
 rm daisy-pipeline -rf
 
-./pipeline.update "$VERSION"
+./pipeline.update "$VERSION" >> $LOG 2>&1
+
+cat $LOG
+
+exit 0

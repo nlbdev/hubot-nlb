@@ -4,6 +4,8 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+LOG="`tempfile`"
+
 . ~/config/set-env.sh
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
@@ -28,4 +30,9 @@ updater/linux/pipeline-updater \
     -install-dir "/opt/daisy-pipeline2/" \
     -service "$REPO_URL/pipeline-updates" \
     -version "$VERSION" \
-    $FORCE
+    $FORCE \
+    >> $LOG 2>&1
+
+cat $LOG
+
+exit 0

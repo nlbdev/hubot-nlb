@@ -3,8 +3,12 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+LOG="`tempfile`"
+
 echo "Available commands:"
-ls pipeline.* | sed 's/^pipeline\./pipeline /'
+ls pipeline.* | sed 's/^pipeline\./pipeline /' >> $LOG
+
+cat $LOG
 
 exit 0
 
