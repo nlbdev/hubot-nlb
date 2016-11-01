@@ -31,7 +31,22 @@ updater/linux/pipeline-updater \
     -service "$REPO_URL/pipeline-updates" \
     -version "$VERSION" \
     $FORCE \
-    | grep -v "copying to" >> $LOG 2>&1
+    | grep -v "^.INFO. Artifact" >> $LOG 2>&1
+
+# config.yml for the CLI not currently bundled with neither minimal zip nor updater
+if [ ! -f /opt/daisy-pipeline2/cli/config.yml ]; then
+    echo 'host: http://localhost' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'port: 8181' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'ws_path: ws' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'ws_timeup: 25' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'exec_line: ../bin/pipeline2' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'local: true' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'client_key: clientid' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'client_secret: supersecret' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'timeout: 60' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'debug: false' >> /opt/daisy-pipeline2/cli/config.yml
+    echo 'starting: true' >> /opt/daisy-pipeline2/cli/config.yml
+fi
 
 LOG2="`tempfile`"
 head -n 1 $LOG >> $LOG2
