@@ -34,19 +34,23 @@ updater/linux/pipeline-updater \
     | grep -v "^.INFO. Artifact" >> $LOG 2>&1
 
 # config.yml for the CLI not currently bundled with neither minimal zip nor updater
-if [ ! -f /opt/daisy-pipeline2/cli/config.yml ]; then
-    echo 'host: http://localhost' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'port: 8181' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'ws_path: ws' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'ws_timeup: 25' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'exec_line: ../bin/pipeline2' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'local: true' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'client_key: clientid' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'client_secret: supersecret' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'timeout: 60' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'debug: false' >> /opt/daisy-pipeline2/cli/config.yml
-    echo 'starting: true' >> /opt/daisy-pipeline2/cli/config.yml
+CONFIG_YML="/opt/daisy-pipeline2/cli/linux/config.yml"
+if [ ! -f $CONFIG_YML ]; then
+    echo "Creating config.yml for the CLI" >> $LOG 2>&1
+    echo 'host: http://localhost' >> $CONFIG_YML
+    echo 'port: 8181' >> $CONFIG_YML
+    echo 'ws_path: ws' >> $CONFIG_YML
+    echo 'ws_timeup: 25' >> $CONFIG_YML
+    echo 'exec_line: ../../bin/pipeline2' >> $CONFIG_YML
+    echo 'local: true' >> $CONFIG_YML
+    echo 'client_key: clientid' >> $CONFIG_YML
+    echo 'client_secret: supersecret' >> $CONFIG_YML
+    echo 'timeout: 60' >> $CONFIG_YML
+    echo 'debug: false' >> $CONFIG_YML
+    echo 'starting: true' >> $CONFIG_YML
 fi
+
+echo "Done with installing/updating" >> $LOG 2>&1
 
 LOG2="`tempfile`"
 head -n 1 $LOG >> $LOG2

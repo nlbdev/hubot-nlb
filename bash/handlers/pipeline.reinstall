@@ -29,6 +29,8 @@ rm daisy-pipeline -rf >> $LOG 2>&1
 
 $DIR/pipeline.update "$VERSION" force >> $LOG 2>&1
 
+echo "Done with reinstalling" >> $LOG 2>&1
+
 LOG2="`tempfile`"
 head -n 1 $LOG >> $LOG2
 echo >> $LOG2
