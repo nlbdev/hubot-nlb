@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="current"
+fi
+
+. ~/config/set-env.sh
+
+REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+
+cd /opt/daisy-pipeline2
+
+echo "These are the 10 most recent Pipeline 2 builds:"
+
+curl "$REPO_URL/pipeline-updates/" 2>/dev/null \
+    | grep href | sed 's/.* href="//' | sed 's/".*//' \
+    | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*' | sort -r \
+    | head -n 10 | while read version
+do
+    TIMESTAMP="`curl "$REPO_URL/pipeline-updates/$version" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
+    echo "$version (build time: $CURRENT_TIMESTAMP)"
+done
+
+echo "See $REPO_URL/pipeline-updates for more."

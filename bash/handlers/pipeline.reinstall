@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+. ~/config/set-env.sh
+
+REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+
+cd /opt/daisy-pipeline2
+
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="current"
+fi
+
+echo "Removing any current version of Pipeline 2..."
+rm * -rf
+
+echo "Downloading and unzipping the minimal Pipeline 2 distribution..."
+wget "$REPO_URL/pipeline-builds/pipeline2-1.10.0-beta2-SNAPSHOT_minimal.zip" -O minimal.zip
+unzip minimal.zip
+rm minimal.zip
+mv daisy-pipeline/* .
+rm daisy-pipeline -rf
+
+./pipeline.update "$VERSION"

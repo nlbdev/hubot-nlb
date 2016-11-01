@@ -1,33 +1,19 @@
 #!/bin/bash
+set -e
 
-echo "Ikke implementert enda..."
-exit 0
+. ~/config/set-env.sh
 
-sudo service pipeline2d status
-sudo service pipeline2-webuid status
+REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
-ENGINE_PID="`ps aux | grep -v grep | grep daisy | grep felix.jar | awk '{print $2}'`"
-WEBUI_PID="`ps aux | grep -v grep | grep daisy | grep java | grep webui | awk '{print $2}'`"
+cd /opt/daisy-pipeline2
 
-if [ "$ENGINE_PID" == "" ] && [ "$WEBUI_PID" == "" ]; then
-    echo "Could not find the PID for neither the engine nor the web ui"
-
-else if [ "$ENGINE_PID" != "" ] && [ "$WEBUI_PID" == "" ]; then
-    top -b -n 1 -p $ENGINE_PID
-    echo "Pipeline 2 Engine PID: $ENGINE_PID"
-
-else if [ "$ENGINE_PID" == "" ] && [ "$WEBUI_PID" != "" ]; then
-    top -b -n 1 -p $WEBUI_PID
-    echo "Pipeline 2 Web UI PID: $WEBUI_PID"
-
-else
-    top -b -n 1 -p $ENGINE_PID,$WEBUI_PID
-    echo "Pipeline 2 Engine PID: $ENGINE_PID"
-    echo
-    echo "Pipeline 2 Web UI PID: $WEBUI_PID"
-fi
-fi
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="current"
 fi
 
-exit 0
+CURRENT_VERSION="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
+CURRENT_TIMESTAMP="`curl "$REPO_URL/pipeline-updates/$CURRENT_VERSION" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
 
+echo "Pipeline 2 currently installed: $CURRENT_VERSION"
+echo "This version of Pipeline 2 was built: $CURRENT_TIMESTAMP"

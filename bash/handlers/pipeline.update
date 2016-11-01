@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+
+. ~/config/set-env.sh
+
+REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+
+cd /opt/daisy-pipeline2
+
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="current"
+fi
+
+FORCE="$2"
+if [ "$FORCE" = "force" ]; then
+    FORCE="-force"
+else
+    FORCE=""
+fi
+
+echo "Installing/updating Pipeline 2..."
+updater/linux/pipeline-updater \
+    -descriptor "/opt/daisy-pipeline2/etc/releaseDescriptor.xml" \
+    -install-dir "/opt/daisy-pipeline2/" \
+    -service "$REPO_URL/pipeline-updates" \
+    -version "$VERSION" \
+    $FORCE
