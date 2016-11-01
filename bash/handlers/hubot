@@ -1,7 +1,19 @@
 #!/bin/bash
 
-echo "Available commands:"
-ls hubot.* | sed 's/^hubot\./hubot /'
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+
+echo "Available commands:" >> $LOG 2>&1
+ls hubot.* | sed 's/^hubot\./hubot /' >> $LOG
+
+LOG2="`tempfile`"
+head -n 1 $LOG >> $LOG2
+echo >> $LOG2
+tail -n +2 $LOG >> $LOG2
+cat $LOG2
+rm $LOG $LOG2
 
 exit 0
 
