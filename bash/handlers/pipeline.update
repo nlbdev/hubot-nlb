@@ -27,11 +27,11 @@ if [ "$VERSION" = "" ]; then
 fi
 
 FORCE="$2"
-if [ "$FORCE" = "force" ]; then
+#if [ "$FORCE" = "force" ]; then
     FORCE="-force"
-else
-    FORCE=""
-fi
+#else
+#    FORCE=""
+#fi
 
 echo "Installing/updating Pipeline 2..."
 updater/linux/pipeline-updater \
