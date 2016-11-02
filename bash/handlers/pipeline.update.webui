@@ -34,7 +34,7 @@ if [ "$VERSION" = "" ]; then
                    | head -n 1`"
 fi
 
-./pipeline.stop.webui >> $LOG 2>&1
+./pipeline.stop.webui || echo "" >> $LOG 2>&1
 
 # Backup database and about page
 TIMESTAMP="`date --utc --rfc-3339=seconds | sed 's/+.*//' | sed 's/ /_/g' | sed 's/[^0-9_]/-/g'`"
