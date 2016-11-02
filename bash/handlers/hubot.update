@@ -6,7 +6,7 @@ cd "$DIR/../.."
 
 git add -A && git pull 2>&1 # git add to avoid overwriting unstaged changes
 if [ $? -eq 0 ]; then
-  $DIR/die
+  echo "Changes has been downloaded. If you've changed anything other than the bash scripts, then you'll need to run 'hubot restart' for the changes to take effect."
 else
   echo "git pull failed"
 fi
