@@ -51,7 +51,7 @@ if [ ! -f $CONFIG_YML ]; then
     echo 'port: 8181' >> $CONFIG_YML
     echo 'ws_path: ws' >> $CONFIG_YML
     echo 'ws_timeup: 25' >> $CONFIG_YML
-    echo 'exec_line: ../../bin/pipeline2' >> $CONFIG_YML
+    echo 'exec_line: ../bin/pipeline2' >> $CONFIG_YML
     echo 'local: true' >> $CONFIG_YML
     echo 'client_key: clientid' >> $CONFIG_YML
     echo 'client_secret: supersecret' >> $CONFIG_YML
