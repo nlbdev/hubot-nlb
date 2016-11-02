@@ -17,8 +17,20 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+echo "These are the 10 most recent Pipeline 2 Web UI builds:" >> $LOG 2>&1
 
-echo "TODO: not implemented" >> $LOG 2>&1
+curl "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/" 2>/dev/null \
+    | grep 'href=' \
+    | sed 's/href=/\nhref=/' \
+    | grep '^href=' \
+    | sed 's/^href="//' \
+    | sed 's/".*//' \
+    | grep '^[0-9]' \
+    | grep '/$' \
+    | sed 's/\/$//' \
+    | sort -r \
+    | head -n 10 >> $LOG 2>&1
+
+echo "See http://repo1.maven.org/maven2/org/daisy/pipeline/webui/ for more." >> $LOG 2>&1
 
 exit 0

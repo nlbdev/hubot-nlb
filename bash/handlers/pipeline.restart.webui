@@ -17,8 +17,11 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
-
-echo "TODO: not implemented" >> $LOG 2>&1
+sudo service daisy-pipeline2-webui restart >> $LOG 2>&1
+if [ "$?" = "" ];
+    echo "Web UI restarted successfully" >> $LOG 2>&1
+else
+    echo "An error occured while restarting the Web UI" >> $LOG 2>&1
+fi
 
 exit 0

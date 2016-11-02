@@ -15,18 +15,13 @@ function finish {
 }
 trap finish EXIT
 
-VERSION="$1"
-if [ "$VERSION" = "" ]; then
-    VERSION="current"
-fi
-
 . ~/config/set-env.sh
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
 cd /opt/daisy-pipeline2
 
-echo "These are the 10 most recent Pipeline 2 builds:" >> $LOG 2>&1
+echo "These are the 10 most recent Pipeline 2 engine builds:" >> $LOG 2>&1
 
 curl "$REPO_URL/pipeline-updates/" 2>/dev/null \
     | grep href | sed 's/.* href="//' | sed 's/".*//' \

@@ -19,6 +19,47 @@ trap finish EXIT
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
-echo "TODO: not implemented" >> $LOG 2>&1
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="`curl "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/" 2>/dev/null \
+                   | grep 'href=' \
+                   | sed 's/href=/\nhref=/' \
+                   | grep '^href=' \
+                   | sed 's/^href="//' \
+                   | sed 's/".*//' \
+                   | grep '^[0-9]' \
+                   | grep '/$' \
+                   | sed 's/\/$//' \
+                   | sort -r \
+                   | head -n 1`"
+fi
+
+./pipeline.stop.webui >> $LOG 2>&1
+
+# Backup database and about page
+TIMESTAMP="`date --utc --rfc-3339=seconds | sed 's/+.*//' | sed 's/ /_/g' | sed 's/[^0-9_]/-/g'`"
+if [[ -d "/var/opt/daisy-pipeline2-webui" ]] ; then
+  mkdir -p "$HOME/webui-data-backups" >> $LOG 2>&1
+  sudo cp -r "/var/opt/daisy-pipeline2-webui" "$HOME/webui-data-backups/bak-$TIMESTAMP" >> $LOG 2>&1
+  sudo chown -R $USER:$USER "$HOME/webui-data-backups/dp2webui.bak-$TIMESTAMP" >> $LOG 2>&1
+  sudo chown -R $USER:$USER "$HOME/webui-data-backups/about.html-$TIMESTAMP" >> $LOG 2>&1
+fi
+
+DEB="`curl "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/$VERSION/" 2>/dev/null \
+            | grep 'href=' \
+            | sed 's/href=/\nhref=/' \
+            | grep '^href=' \
+            | sed 's/^href="//' \
+            | sed 's/".*//' \
+            | grep deb$`"
+TEMP_DEB="`tempfile`"
+wget -q "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/$VERSION/$DEB" -O "$TEMP_DEB" >> $LOG 2>&1
+
+sudo apt-get remove -y daisy-pipeline2-webui >> $LOG 2>&1
+DEBIAN_FRONTEND=noninteractive dpkg -i "$TEMP_DEB" >> $LOG 2>&1
+
+./pipeline.restart.webui
+
+echo "Ok, I'm done. Pipeline 2 Web UI has been restarted." >> $LOG 2>&1
 
 exit 0
