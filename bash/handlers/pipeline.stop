@@ -20,7 +20,7 @@ trap finish EXIT
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
 cd /opt/daisy-pipeline2
-cli/linux/dp2 halt >> $LOG 2>&1
+cli/dp2 halt >> $LOG 2>&1
 
 echo "Done with stopping Pipeline 2" >> $LOG 2>&1
 
