@@ -5,6 +5,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
 
 . ~/config/set-env.sh
 
@@ -14,12 +23,5 @@ cd /opt/daisy-pipeline2
 cli/linux/dp2 help >> $LOG 2>&1
 
 echo "Done with starting Pipeline 2" >> $LOG 2>&1
-
-LOG2="`tempfile`"
-head -n 1 $LOG >> $LOG2
-echo >> $LOG2
-tail -n +2 $LOG >> $LOG2
-cat $LOG2
-rm $LOG $LOG2
 
 exit 0

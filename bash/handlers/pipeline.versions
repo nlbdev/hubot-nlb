@@ -5,6 +5,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
 
 VERSION="$1"
 if [ "$VERSION" = "" ]; then
@@ -29,12 +38,5 @@ do
 done
 
 echo "See $REPO_URL/pipeline-updates for more." >> $LOG 2>&1
-
-LOG2="`tempfile`"
-head -n 1 $LOG >> $LOG2
-echo >> $LOG2
-tail -n +2 $LOG >> $LOG2
-cat $LOG2
-rm $LOG $LOG2
 
 exit 0

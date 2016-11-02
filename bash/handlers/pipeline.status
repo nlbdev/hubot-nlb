@@ -5,6 +5,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
 
 . ~/config/set-env.sh
 
@@ -22,12 +31,5 @@ CURRENT_TIMESTAMP="`curl "$REPO_URL/pipeline-updates/$CURRENT_VERSION" 2>/dev/nu
 
 echo "Pipeline 2 currently installed: $CURRENT_VERSION" >> $LOG 2>&1
 echo "This version of Pipeline 2 was built: $CURRENT_TIMESTAMP" >> $LOG 2>&1
-
-LOG2="`tempfile`"
-head -n 1 $LOG >> $LOG2
-echo >> $LOG2
-tail -n +2 $LOG >> $LOG2
-cat $LOG2
-rm $LOG $LOG2
 
 exit 0
