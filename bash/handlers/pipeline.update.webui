@@ -56,7 +56,7 @@ TEMP_DEB="`tempfile`"
 wget -q "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/$VERSION/$DEB" -O "$TEMP_DEB" >> $LOG 2>&1
 
 sudo apt-get remove -y daisy-pipeline2-webui || echo "Could not uninstall the Web UI (maybe it's not installed)" >> $LOG 2>&1
-DEBIAN_FRONTEND=noninteractive dpkg -i "$TEMP_DEB" >> $LOG 2>&1
+DEBIAN_FRONTEND=noninteractive sudo dpkg -i "$TEMP_DEB" >> $LOG 2>&1
 
 ./pipeline.restart.webui
 
