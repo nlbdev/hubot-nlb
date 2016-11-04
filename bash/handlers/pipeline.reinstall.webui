@@ -4,6 +4,19 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-./pipeline.update.webui "$@"
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+./pipeline.update.webui "$@" >> $LOG 2>&1
+
+echo "Done with reinstalling the webui" >> $LOG 2>&1
 
 exit 0
