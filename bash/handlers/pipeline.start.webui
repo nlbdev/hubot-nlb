@@ -18,7 +18,7 @@ trap finish EXIT
 . ~/config/set-env.sh
 
 sudo service daisy-pipeline2-webui start >> $LOG 2>&1
-if [ "$?" = "" ];
+if [ "$?" = "0" ]; then
     echo "Web UI started successfully" >> $LOG 2>&1
 else
     echo "An error occured while starting the Web UI" >> $LOG 2>&1
