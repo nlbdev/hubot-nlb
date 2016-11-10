@@ -4,7 +4,17 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "$DIR/../.."
 
-git add -A && git pull 2>&1 # git add to avoid overwriting unstaged changes
+. ~/config/set-env.sh
+
+if [ "$HUBOT_NAME" = "" ]; then
+  export HUBOT_NAME="`hostname`"
+fi
+
+if [ "$HUBOT_NAME" = "master" ]; then
+  export HUBOT_NAME="NLB"
+fi
+
+git add -A && git fetch && git reset --hard origin/$HUBOT_NAME 2>&1 # git add to avoid overwriting unstaged changes
 if [ $? -eq 0 ]; then
   echo "Changes has been downloaded. If you've changed anything other than the bash scripts, then you'll need to run 'hubot restart' for the changes to take effect."
 else
