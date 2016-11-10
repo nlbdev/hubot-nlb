@@ -23,8 +23,8 @@ cd /opt/daisy-pipeline2
 cli/dp2 halt >> $LOG 2>&1
 if [ "$?" != "0" ]; then
     echo "Could not gracefully shut down the Pipeline 2 engine, will forcefully kill it..." >> $LOG 2>&1
-    ps aux | grep daisy-pipeline2 | grep -v webui | grep -v grep | awk '{print $2}' | xargs kill -9 >> $LOG 2>&1
 fi
+ps aux | grep daisy-pipeline2 | grep -v webui | grep -v grep | awk '{print $2}' | xargs kill -9 >> $LOG 2>&1
 
 echo "Done with stopping Pipeline 2" >> $LOG 2>&1
 
