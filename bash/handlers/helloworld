@@ -1,9 +1,0 @@
-#!/bin/bash
-echo "Hello.."
-#sleep 10s;
-echo "Sleepy World!"
-echo "1: $1"
-echo "2: $2"
-echo "@: $@"
-
-exit 0

@@ -36,7 +36,7 @@ rm minimal.zip >> $LOG 2>&1
 mv daisy-pipeline/* . >> $LOG 2>&1
 rm daisy-pipeline -rf >> $LOG 2>&1
 
-$DIR/pipeline.update.engine "$VERSION" force >> $LOG 2>&1
+$DIR/update.engine "$VERSION" force >> $LOG 2>&1
 
 echo "Done with reinstalling the engine" >> $LOG 2>&1
 

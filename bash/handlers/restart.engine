@@ -19,8 +19,8 @@ trap finish EXIT
 
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
-$DIR/pipeline.stop.engine >> $LOG 2>&1
-$DIR/pipeline.start.engine >> $LOG 2>&1
+$DIR/stop.engine >> $LOG 2>&1
+$DIR/start.engine >> $LOG 2>&1
 
 echo "Done with restarting Pipeline 2" >> $LOG 2>&1
 
