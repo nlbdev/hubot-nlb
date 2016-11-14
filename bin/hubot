@@ -29,4 +29,6 @@ if [ "$HUBOT_NAME" = "master" ]; then
   export HUBOT_NAME="NLB"
 fi
 
+export WEBHOOK_ADAPTER_COMMAND_WHITELIST="adapter echo help ping time shellcmd"
+export WEBHOOK_ADAPTER_COMMAND_FORWARD="shellcmd"
 exec node_modules/.bin/hubot --name "$HUBOT_NAME" --adapter webhook-adapter "$@"
