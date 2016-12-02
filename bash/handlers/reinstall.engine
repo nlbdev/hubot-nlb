@@ -26,6 +26,9 @@ if [ "$VERSION" = "" ]; then
     VERSION="current"
 fi
 
+echo "Stopping engine..." >> $LOG 2>&1
+$DIR/stop.engine >> $LOG 2>&1
+
 echo "Removing any current version of Pipeline 2..." >> $LOG 2>&1
 rm * -rf >> $LOG 2>&1
 
@@ -36,7 +39,13 @@ rm minimal.zip >> $LOG 2>&1
 mv daisy-pipeline/* . >> $LOG 2>&1
 rm daisy-pipeline -rf >> $LOG 2>&1
 
+echo "Enable debugging output in logs..." >> $LOG 2>&1
+sed -i 's/\(com.xmlcalabash.*\)INFO/\1DEBUG/' etc/config-logback.xml >> $LOG 2>&1
+
 $DIR/update.engine "$VERSION" force >> $LOG 2>&1
+
+echo "Starting engine..." >> $LOG 2>&1
+$DIR/start.engine >> $LOG 2>&1
 
 echo "Done with reinstalling the engine" >> $LOG 2>&1
 
