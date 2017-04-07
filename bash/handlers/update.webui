@@ -58,6 +58,9 @@ wget -q "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/$VERSION/$DEB" -
 sudo apt-get remove -y daisy-pipeline2-webui || echo "Could not uninstall the Web UI (maybe it's not installed)" >> $LOG 2>&1
 DEBIAN_FRONTEND=noninteractive sudo dpkg -i "$TEMP_DEB" >> $LOG 2>&1
 
+echo "Enabling upload of files up to 5G..." >> $LOG 2>&1
+sudo sed -i 's/^play.http.parser.maxDiskBuffer.*/play.http.parser.maxDiskBuffer = 5G/' /opt/daisy-pipeline2-webui/conf/application.conf >> $LOG 2>&1
+
 ./restart.webui
 
 echo "Ok, I'm done. Pipeline 2 Web UI has been restarted." >> $LOG 2>&1
