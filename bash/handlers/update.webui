@@ -36,15 +36,6 @@ fi
 
 ./stop.webui || echo "Could not stop the Web UI (maybe it's not running)" >> $LOG 2>&1
 
-# Backup database and about page
-TIMESTAMP="`date --utc --rfc-3339=seconds | sed 's/+.*//' | sed 's/ /_/g' | sed 's/[^0-9_]/-/g'`"
-if [[ -d "/var/opt/daisy-pipeline2-webui" ]] ; then
-  mkdir -p "$HOME/webui-data-backups" >> $LOG 2>&1
-  sudo cp -r "/var/opt/daisy-pipeline2-webui" "$HOME/webui-data-backups/bak-$TIMESTAMP" >> $LOG 2>&1
-  sudo chown -R $USER:$USER "$HOME/webui-data-backups/dp2webui.bak-$TIMESTAMP" >> $LOG 2>&1
-  sudo chown -R $USER:$USER "$HOME/webui-data-backups/about.html-$TIMESTAMP" >> $LOG 2>&1
-fi
-
 DEB="`curl "http://repo1.maven.org/maven2/org/daisy/pipeline/webui/$VERSION/" 2>/dev/null \
             | grep 'href=' \
             | sed 's/href=/\nhref=/' \
