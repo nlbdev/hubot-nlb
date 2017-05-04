@@ -1,0 +1,37 @@
+#!/bin/bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+. ~/config/set-env.sh
+
+cd /opt/styringsdata
+
+VERSION="$1"
+if [ "$VERSION" = "" ]; then
+    VERSION="master"
+fi
+
+echo "Installerer/oppdaterer styringsdata-system..."
+git add -A \
+    && GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.styringsdata" git fetch \
+    && git reset --hard origin/$VERSION 2>&1 # git add to avoid overwriting unstaged changes
+if [ $? -eq 0 ]; then
+  echo "Endringer har blitt lastet ned."
+else
+  echo "En feil oppstod ved nedlasting fra GitHub"
+fi
+
+exit 0
