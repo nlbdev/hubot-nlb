@@ -21,7 +21,7 @@ REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
 cd /opt/daisy-pipeline2
 set +e
-cli/dp2 halt >> $LOG 2>&1
+timeout 15s cli/dp2 halt >> $LOG 2>&1
 if [ "$?" != "0" ]; then
     echo "Could not gracefully shut down the Pipeline 2 engine, will forcefully kill it..." >> $LOG 2>&1
 fi

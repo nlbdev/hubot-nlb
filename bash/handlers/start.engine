@@ -20,7 +20,12 @@ trap finish EXIT
 REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
 
 cd /opt/daisy-pipeline2
-cli/dp2 version >> $LOG 2>&1
+set +e
+timeout 15s cli/dp2 version >> $LOG 2>&1
+if [ "$?" != "0" ]; then
+    echo "Could not get version information from the Pipeline 2 engine..." >> $LOG 2>&1
+fi
+set -e
 
 echo "Done with starting Pipeline 2" >> $LOG 2>&1
 
