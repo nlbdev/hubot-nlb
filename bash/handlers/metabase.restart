@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+. ~/config/set-env.sh
+
+echo "Sender stoppsignal til Metabase-prosess..."
+ps axo pid,command | grep metabase | grep -v grep | grep "java -jar" | awk '{print $1}' | xargs timeout 10 kill
+sleep 5
+if [ "`ps axo pid,command | grep metabase | grep -v grep | wc -l`" != "0" ]; then
+    echo "Ser fortsatt Metabase-prosesser; forsøker å drepe dem..."
+    ps axo pid,command | grep metabase | grep -v grep | awk '{print $1}' | xargs timeout 10 kill -9
+fi
+if [ "`ps axo pid,command | grep metabase | grep -v grep | wc -l`" = "0" ]; then
+    echo "Ferdig med å stoppe Metabase. Metabase vil starte igjen innen 60 sekunder."
+else
+    echo "Det finnes fortsatt Metabase-prosesser... :("
+fi
+
+exit 0
