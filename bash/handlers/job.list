@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "$DIR/../.."
+
+. ~/config/set-env.sh
+
+if [ "$PENTAHO_JOB_DIR" = "" ]; then
+    export PENTAHO_JOB_DIR="/opt/styringsdata/pentaho"
+fi
+
+cd $PENTAHO_JOB_DIR
+echo "Available jobs:"
+find -maxdepth 2 | grep kjb$ | sed 's/^\.\///' | sed 's/\/.*//' | while read -r jobname; do echo "$jobname" ; sleep 0.1 ; done
+
+exit 0

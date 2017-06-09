@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd "$DIR/../.."
+
+. ~/config/set-env.sh
+
+JOB="$1"
+JOB_SUFFIX="$2"
+
+if [ "$PENTAHO_JOB_DIR" = "" ]; then
+    export PENTAHO_JOB_DIR="/opt/styringsdata/pentaho"
+fi
+
+cd $PENTAHO_JOB_DIR
+
+if [ "$JOB" = "" ]; then
+    echo "Bruk: job run [jobbnavn] [valgfritt suffix]"
+    exit 0
+fi
+
+if [ "$JOB_SUFFIX" = "" ]; then
+    EXISTING_COUNT="`echo "SELECT COUNT(DISTINCT suffix) FROM ImportStatus WHERE source='$JOB';" | mysql datavarehus | tail -n 1`"
+    if [ "$EXISTING_COUNT" = "0" ]; then
+        echo "Ingen tidligere jobber med source='$JOB'"
+    else
+        echo "SELECT DISTINCT suffix FROM ImportStatus WHERE source='$JOB' ORDER BY suffix ASC;" | mysql datavarehus \
+                | tail -n +2 | while read -r suffix; do
+            echo "INSERT INTO ImportStatus (source, suffix, lastUpdated, success) VALUES ('$JOB', '$suffix', 0, true);" | mysql datavarehus
+        done
+        if [ "$?" = "0" ]; then
+            echo "$EXISTING_COUNT jobber med source='$JOB' er lagt i køen og vil bli kjørt ved første anledning"
+        else
+            echo "En feil oppstod med kommunikasjon med databasen"
+        fi
+    fi
+else
+    EXISTING_COUNT="`echo "SELECT count(*) FROM ImportStatus WHERE source='$JOB' and suffix='$JOB_SUFFIX';" | mysql datavarehus | tail -n 1`"
+    if [ "$EXISTING_COUNT" = "0" ]; then
+        echo "Ingen tidligere jobber med source='$JOB' og suffix='$JOB_SUFFIX'"
+    else
+        echo "INSERT INTO ImportStatus (source, suffix, lastUpdated, success) VALUES ('$JOB', '$JOB_SUFFIX', 0, true);" | mysql datavarehus
+        if [ "$?" = "0" ]; then
+            echo "Jobb med source='$JOB' og suffix='$JOB_SUFFIX' er lagt i køen og vil bli kjørt ved første anledning"
+        else
+            echo "En feil oppstod med kommunikasjon med databasen"
+        fi
+    fi
+fi
+
+exit 0
