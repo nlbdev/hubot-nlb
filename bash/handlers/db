@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+
+echo "Available commands:" >> $LOG 2>&1
+ls db.* | sed 's/^db\./db /' >> $LOG
+
+LOG2="`tempfile`"
+head -n 1 $LOG >> $LOG2
+echo >> $LOG2
+tail -n +2 $LOG >> $LOG2
+cat $LOG2
+rm $LOG $LOG2
+
+exit 0
+

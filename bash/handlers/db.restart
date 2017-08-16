@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+. ~/config/set-env.sh
+
+echo "Starter database på nytt..."
+sudo -n service mysql restart
+RET="$?"
+service --status-all | grep mysql
+if [ "$RET" = "0" ]; then
+    echo "Databasen er startet"
+else
+    echo "Klarte ikke å starte databasen"
+fi
+
+exit 0
