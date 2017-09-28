@@ -4,6 +4,5 @@
   "hubot-heroku-keepalive",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-webhook-master",
   "hubot-script-shellcmd"
 ]
