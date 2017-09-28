@@ -11,15 +11,14 @@
     "hubot-google-translate": "^0.2.0",
     "hubot-help": "^0.2.0",
     "hubot-heroku-keepalive": "^1.0.2",
-    "hubot-webhook-master": "github:nlbdev/hubot-webhook-master",
     "hubot-maps": "0.0.2",
     "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.3",
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
-    "hubot-slack": "^4.2.1",
-    "hubot-script-shellcmd": "0.0.16"
+    "hubot-script-shellcmd": "0.0.16",
+    "hubot-webhook-adapter": "github:nlbdev/hubot-webhook-adapter"
   },
   "engines": {
     "node": "0.10.x"
