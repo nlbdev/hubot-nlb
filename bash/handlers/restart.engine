@@ -17,7 +17,7 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 $DIR/stop.engine >> $LOG 2>&1
 $DIR/start.engine >> $LOG 2>&1

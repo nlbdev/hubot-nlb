@@ -17,7 +17,7 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 cd /opt/daisy-pipeline2
 
@@ -27,7 +27,8 @@ if [ "$VERSION" = "" ]; then
 fi
 
 CURRENT_VERSION="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
-CURRENT_TIMESTAMP="`curl "$REPO_URL/pipeline-updates/$CURRENT_VERSION" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
+CURRENT_HREF="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* href="//' | sed 's/".*//'`"
+CURRENT_TIMESTAMP="`curl "$CURRENT_HREF" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
 
 echo "Pipeline 2 currently installed: $CURRENT_VERSION" >> $LOG 2>&1
 echo "This version of Pipeline 2 was built: $CURRENT_TIMESTAMP" >> $LOG 2>&1

@@ -17,7 +17,7 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 cd /opt/daisy-pipeline2
 
@@ -33,7 +33,7 @@ echo "Removing any current version of Pipeline 2..." >> $LOG 2>&1
 rm * -rf >> $LOG 2>&1
 
 echo "Downloading and unzipping the minimal Pipeline 2 distribution..." >> $LOG 2>&1
-wget -q "$REPO_URL/pipeline-builds/pipeline2-1.10.1-SNAPSHOT_minimal.zip" -O minimal.zip >> $LOG 2>&1
+wget -q "${REPO_URL}pipeline2_minimal.zip" -O minimal.zip >> $LOG 2>&1
 unzip -q minimal.zip >> $LOG 2>&1
 rm minimal.zip >> $LOG 2>&1
 mv daisy-pipeline/* . >> $LOG 2>&1

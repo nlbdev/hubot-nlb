@@ -17,7 +17,7 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 cd /opt/daisy-pipeline2
 
@@ -37,7 +37,7 @@ echo "Installing/updating Pipeline 2..."
 updater/linux/pipeline-updater \
     -descriptor "/opt/daisy-pipeline2/etc/releaseDescriptor.xml" \
     -install-dir "/opt/daisy-pipeline2/" \
-    -service "$REPO_URL/pipeline-updates" \
+    -service "$REPO_URL" \
     -version "$VERSION" \
     $FORCE \
     | grep -v "^.INFO. Artifact" >> $LOG 2>&1

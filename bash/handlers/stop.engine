@@ -17,7 +17,7 @@ trap finish EXIT
 
 . ~/config/set-env.sh
 
-REPO_URL="http://$PIPELINE_HOST:$PIPELINE_REPO_PORT"
+REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 cd /opt/daisy-pipeline2
 set +e
