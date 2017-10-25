@@ -62,4 +62,6 @@ fi
 
 echo "Done with installing/updating" >> $LOG 2>&1
 
+$DIR/restart.engine >> $LOG 2>&1
+
 exit 0
