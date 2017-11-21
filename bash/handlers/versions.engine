@@ -20,7 +20,7 @@ trap finish EXIT
 REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
 TEMPFILE="`tempfile`"
-curl "$REPO_URL/current" > "$TEMPFILE"
+curl "$REPO_URL/current" 2>/dev/null > "$TEMPFILE"
 LATEST_VERSION="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
 LATEST_HREF="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* href="//' | sed 's/".*//'`"
 LATEST_TIMESTAMP="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
