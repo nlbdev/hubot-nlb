@@ -19,10 +19,16 @@ trap finish EXIT
 
 REPO_URL="http://$REPO_PUBLIC_HOST/pipeline/"
 
-cd /opt/daisy-pipeline2
+TEMPFILE="`tempfile`"
+curl "$REPO_URL/current" > "$TEMPFILE"
+LATEST_VERSION="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
+LATEST_HREF="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* href="//' | sed 's/".*//'`"
+LATEST_TIMESTAMP="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
+rm "$TEMPFILE"
 
 echo "Repository homepage: ${REPO_URL}" >> $LOG 2>&1
 echo "List of commits: ${REPO_URL}commits/" >> $LOG 2>&1
 echo "List of branches: ${REPO_URL}branches/" >> $LOG 2>&1
+echo "The latest available version of the engine is: ${REPO
 
 exit 0
