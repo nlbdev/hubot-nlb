@@ -28,7 +28,7 @@ fi
 
 CURRENT_VERSION="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
 CURRENT_HREF="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* href="//' | sed 's/".*//'`"
-CURRENT_TIMESTAMP="`cat /opt/daisy-pipeline2/etc/releaseDescriptor.xml 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
+CURRENT_TIMESTAMP="`curl "$CURRENT_HREF" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
 
 echo "Pipeline 2 engine currently installed: $CURRENT_VERSION" >> $LOG 2>&1
 echo "This version of the Pipeline 2 engine was built: $CURRENT_TIMESTAMP" >> $LOG 2>&1
@@ -37,7 +37,7 @@ TEMPFILE="`tempfile`"
 curl "$REPO_URL/current" 2>/dev/null > "$TEMPFILE"
 LATEST_VERSION="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* version="//' | sed 's/".*//'`"
 LATEST_HREF="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* href="//' | sed 's/".*//'`"
-LATEST_TIMESTAMP="`cat "$TEMPFILE" | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
+LATEST_TIMESTAMP="`curl "$LATEST_HREF" 2>/dev/null | grep '<releaseDescriptor' | sed 's/.*<releaseDescriptor[^>]* time="//' | sed 's/".*//'`"
 rm "$TEMPFILE"
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
