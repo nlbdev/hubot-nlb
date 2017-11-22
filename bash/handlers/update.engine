@@ -40,7 +40,7 @@ updater/linux/pipeline-updater \
     -service "$REPO_URL" \
     -version "$VERSION" \
     $FORCE \
-    | grep -v "^.INFO. Artifact" >> $LOG 2>&1
+    | grep '^\([^\[]\|.[^I]\|.INFO. [^A]\|.*SNAPSHOT.*downloaded in\|[nN][lL][bB]\)' >> $LOG 2>&1
 
 # config.yml for the CLI not currently bundled with neither minimal zip nor updater
 CONFIG_YML="/opt/daisy-pipeline2/cli/config.yml"
