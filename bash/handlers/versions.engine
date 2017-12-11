@@ -29,6 +29,6 @@ rm "$TEMPFILE"
 echo "Repository homepage: ${REPO_URL}" >> $LOG 2>&1
 echo "List of commits: ${REPO_URL}commits/" >> $LOG 2>&1
 echo "List of branches: ${REPO_URL}branches/" >> $LOG 2>&1
-echo "The latest available version of the engine is: ${REPO
+echo "The latest available version of the engine is: ${REPO}" >> $LOG 2>&1
 
 exit 0
