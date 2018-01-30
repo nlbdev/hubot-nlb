@@ -49,8 +49,4 @@ if [ "$SHOWHELP" == "1" ] || [ "$SUBCOMMAND" = "" ]; then
     echo "For overvåking, sjekk infoskjermen: $SMB/rapporter/dashboard.html"
 fi
 
-
-cat $LOG
-echo "---"
-
 exit 0
