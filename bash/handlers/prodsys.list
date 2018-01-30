@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+. ~/config/set-env.sh
+
+if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
+    echo "TRIGGER_DIR for bokarkiv er ikke spesifisert; kan ikke liste opp steg."
+else
+    cd "$BOOK_ARCHIVE_TRIGGER_DIR" && ls | cat >> $LOG 2>&1
+fi
+
+exit 0

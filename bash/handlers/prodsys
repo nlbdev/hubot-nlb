@@ -1,0 +1,56 @@
+#!/bin/bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
+LOG="`tempfile`"
+function finish {
+    LOG2="`tempfile`"
+    head -n 1 $LOG >> $LOG2
+    echo >> $LOG2
+    tail -n +2 $LOG >> $LOG2
+    cat $LOG2
+    rm $LOG $LOG2
+}
+trap finish EXIT
+
+. ~/config/set-env.sh
+
+SMB="" >> $LOG 2>&1
+if [ "$BOOK_ARCHIVE_MOUNTPOINT" != "" ]; then
+    SMB="smb:`findmnt $BOOK_ARCHIVE_MOUNTPOINT | head -n 2 | tail -n 1 | awk '{print $2}' | sed 's/\[.*//'`)" >> $LOG 2>&1
+fi
+
+SUBCOMMAND="$1"
+if [ "$SUBCOMMAND" != "" ]; then
+    shift
+fi
+
+if [ "$SUBCOMMAND" == "update" ]; then
+    ./prodsys.update "$@"
+    
+elif [ "$SUBCOMMAND" == "list" ]; then
+    ./prodsys.list "$@"
+    
+elif [ "$SUBCOMMAND" == "trigger" ]; then
+    ./prodsys.trigger "$@"
+    
+elif [ "$SUBCOMMAND" != "" ]; then
+    echo "'$SUBCOMMAND' er ikke en kommando til produksjonssystemet."
+    SHOWHELP="1"
+fi
+
+if [ "$SHOWHELP" == "1" ] || [ "$SUBCOMMAND" = "" ]; then
+    echo "prodsys-kommandoen brukes for å kommunisere med NLBs produksjonssystem." >> $LOG 2>&1
+    echo "prodsys update: oppdater til siste versjon fra GitHub (nlbdev/produksjonssystem)" >> $LOG 2>&1
+    echo "prodsys list: list opp aktive produksjonssteg" >> $LOG 2>&1
+    echo "prodsys trigger [steg] [bok]: start behandling av [bok] i [steg]" >> $LOG 2>&1
+    echo "For overvåking, sjekk infoskjermen: $SMB/rapporter/dashboard.html"
+fi
+
+
+cat $LOG
+echo "---"
+
+exit 0
