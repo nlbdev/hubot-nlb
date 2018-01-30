@@ -19,7 +19,7 @@ trap finish EXIT
 
 SMB="" >> $LOG 2>&1
 if [ "$BOOK_ARCHIVE_MOUNTPOINT" != "" ]; then
-    SMB="smb:`findmnt $BOOK_ARCHIVE_MOUNTPOINT | head -n 2 | tail -n 1 | awk '{print $2}' | sed 's/\[.*//'`)" >> $LOG 2>&1
+    SMB="smb:`findmnt $BOOK_ARCHIVE_MOUNTPOINT | head -n 2 | tail -n 1 | awk '{print $2}' | sed 's/\[.*//'`" >> $LOG 2>&1
 fi
 
 SUBCOMMAND="$1"
