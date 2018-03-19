@@ -23,8 +23,17 @@ BOOK_ID="$2"
 if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
     echo "TRIGGER_DIR for bokarkiv er ikke spesifisert; kan ikke trigge steg." >> $LOG 2>&1
     
+elif [ "$BOOK_ID" = "" ] && [ "$STEP_ID" =~ "^(TEST)?[0-9]+$" ]; then
+    BOOK_ID="$STEP_ID"
+    STEP_ID=""
+    echo "Trigger boknummer '$BOOK_ID'..." >> $LOG 2>&1
+    touch "$BOOK_ARCHIVE_TRIGGER_DIR/$BOOK_ID" >> $LOG 2>&1
+    echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
+    
 elif [ "$STEP_ID" = "" ]; then
-    echo "Steg må spesifiseres: 'prodsys [steg] [boknummer]'" >> $LOG 2>&1
+    echo "Bruk:" >> $LOG 2>&1
+    echo "prodsys trigger [steg] [boknummer]" >> $LOG 2>&1
+    echo "prodsys trigger [boknummer]" >> $LOG 2>&1
     
 elif [ ! -d "$BOOK_ARCHIVE_TRIGGER_DIR/$STEP_ID" ]; then
     echo "Steget finnes ikke: '$STEP_ID'. For å se tilgjengelige steg, bruk 'prodsys list'" >> $LOG 2>&1
