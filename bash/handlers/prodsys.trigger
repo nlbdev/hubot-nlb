@@ -27,9 +27,13 @@ elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
     BOOK_ID="$STEP_ID"
     STEP_ID=""
     echo "Trigger boknummer '$BOOK_ID'..." >> $LOG 2>&1
-    cd $BOOK_ARCHIVE_TRIGGER_DIR >> $LOG 2>&1
-    ls | sed "s/$/\/$BOOK_ID/" | xargs touch >> $LOG 2>&1
-    echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
+    MIMETYPE_FILE="$BOOK_ARCHIVE_MOUNTPOINT/master/EPUB/$BOOK_ID/mimetype"
+    if [ -f "$MIMETYPE_FILE" ]; then
+        touch "$MIMETYPE_FILE" >> $LOG 2>&1
+        echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
+    else
+        echo "Klarte ikke å trigge $BOOK_ID, filen finnes ikke: $MIMETYPE_FILE" >> $LOG 2>&1
+    fi
     
 elif [ "$STEP_ID" = "" ]; then
     echo "Bruk:" >> $LOG 2>&1
