@@ -23,7 +23,7 @@ BOOK_ID="$2"
 if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
     echo "TRIGGER_DIR for bokarkiv er ikke spesifisert; kan ikke trigge steg." >> $LOG 2>&1
     
-elif [ "$BOOK_ID" = "" ] && [ "$STEP_ID" =~ "^(TEST)?[0-9]+$" ]; then
+elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
     BOOK_ID="$STEP_ID"
     STEP_ID=""
     echo "Trigger boknummer '$BOOK_ID'..." >> $LOG 2>&1
