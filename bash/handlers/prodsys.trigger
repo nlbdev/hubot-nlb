@@ -27,7 +27,8 @@ elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
     BOOK_ID="$STEP_ID"
     STEP_ID=""
     echo "Trigger boknummer '$BOOK_ID'..." >> $LOG 2>&1
-    ls "$BOOK_ARCHIVE_TRIGGER_DIR" | sed "s/^/$BOOK_ARCHIVE_TRIGGER_DIR\//" | sed "s/$/\/$BOOK_ID/" | xargs touch >> $LOG 2>&1
+    cd $BOOK_ARCHIVE_TRIGGER_DIR >> $LOG 2>&1
+    ls | sed "s/$/\/$BOOK_ID/" | xargs touch >> $LOG 2>&1
     echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
     
 elif [ "$STEP_ID" = "" ]; then
