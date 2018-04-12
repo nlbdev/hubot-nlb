@@ -21,12 +21,12 @@ echo "Henter siste versjon fra GitHub..." >> $LOG 2>&1
 cd /opt/produksjonssystem >> $LOG 2>&1
 git pull >> $LOG 2>&1
 
-echo "Starter produksjonssystemet på nytt..." >> $LOG 2>&1
+echo "Sender stoppsignal til produksjonssystemet..." >> $LOG 2>&1
 if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
     echo "TRIGGER_DIR for bokarkiv er ikke spesifisert; kan ikke starte systemet på nytt." >> $LOG 2>&1
 else
     touch "$BOOK_ARCHIVE_TRIGGER_DIR/stop" >> $LOG 2>&1
-    echo "Produksjonssystemet vil være i gang igjen innen et minutt." >> $LOG 2>&1
+    echo "Følg med i #autoprod for å se når produksjonssystemet stopper/starter." >> $LOG 2>&1
 fi
 
 exit 0
