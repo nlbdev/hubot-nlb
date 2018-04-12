@@ -21,6 +21,7 @@ echo "Henter siste versjon fra GitHub..." >> $LOG 2>&1
 cd /opt/produksjonssystem >> $LOG 2>&1
 git pull >> $LOG 2>&1
 
-./prodsys.restart >> $LOG 2>&1
+cd $DIR
+./prodsys.restart
 
 exit 0
