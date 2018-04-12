@@ -27,9 +27,13 @@ elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
     BOOK_ID="$STEP_ID"
     STEP_ID=""
     echo "Trigger boknummer '$BOOK_ID'..." >> $LOG 2>&1
-    MIMETYPE_FILE="$BOOK_ARCHIVE_MOUNTPOINT/master/EPUB/$BOOK_ID/mimetype"
-    if [ -f "$MIMETYPE_FILE" ]; then
-        touch "$MIMETYPE_FILE" >> $LOG 2>&1
+    BOOK_PATH="$BOOK_ARCHIVE_MOUNTPOINT/master/EPUB/$BOOK_ID"
+    if [ -f "$BOOK_PATH" ]; then
+        touch "$BOOK_PATH"
+        echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
+    elif [ -d "$BOOK_PATH" ]; then
+        # trigger modification date for directory on Windows server
+        tempfile -d "$BOOK_DIR" -s "-dirmodified" && rm "$BOOK_DIR"/*-dirmodified
         echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
     else
         echo "Klarte ikke å trigge $BOOK_ID, filen finnes ikke: $MIMETYPE_FILE" >> $LOG 2>&1
