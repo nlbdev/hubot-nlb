@@ -33,10 +33,10 @@ elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
         echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
     elif [ -d "$BOOK_PATH" ]; then
         # trigger modification date for directory on Windows server
-        tempfile -d "$BOOK_DIR" -s "-dirmodified" && rm "$BOOK_DIR"/*-dirmodified
+        tempfile -d "$BOOK_PATH" -s "-dirmodified" && rm "$BOOK_PATH"/*-dirmodified
         echo "Boknummer '$BOOK_ID' ble trigget." >> $LOG 2>&1
     else
-        echo "Klarte ikke å trigge $BOOK_ID, filen finnes ikke: $MIMETYPE_FILE" >> $LOG 2>&1
+        echo "Klarte ikke å trigge $BOOK_ID, mappen eller filen finnes ikke: $BOOK_PATH" >> $LOG 2>&1
     fi
     
 elif [ "$STEP_ID" = "" ]; then
