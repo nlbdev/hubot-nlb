@@ -20,7 +20,11 @@ trap finish EXIT
 if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
     echo "TRIGGER_DIR for bokarkiv er ikke spesifisert; kan ikke liste opp steg."
 else
-    cd "$BOOK_ARCHIVE_TRIGGER_DIR" && ls | cat >> $LOG 2>&1
+    cd "$BOOK_ARCHIVE_TRIGGER_DIR" >> $LOG 2>&1
+    echo "Pipelines:" >> $LOG 2>&1
+    find pipelines -type f | grep "/_name$" | xargs cat >> $LOG 2>&1
+    echo "Mapper:" >> $LOG 2>&1
+    ls "dirs" | cat >> $LOG 2>&1
 fi
 
 exit 0
