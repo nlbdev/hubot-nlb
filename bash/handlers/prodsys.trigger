@@ -26,6 +26,7 @@ if [ "$BOOK_ARCHIVE_TRIGGER_DIR" = "" ]; then
 elif [[ "$BOOK_ID" = "" ]] && [[ "$STEP_ID" =~ ^(TEST)?[0-9]+$ ]]; then
     BOOK_ID="$STEP_ID"
     STEP_ID="master/EPUB"
+fi
     
 if [ "$STEP_ID" = "" ]; then
     echo "Skjønner ikke kommandoen." >> $LOG 2>&1
