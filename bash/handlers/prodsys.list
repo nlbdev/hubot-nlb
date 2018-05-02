@@ -24,7 +24,7 @@ else
     echo "Pipelines:" >> $LOG 2>&1
     find pipelines -type f | grep "/_name$" | xargs cat >> $LOG 2>&1
     echo "Mapper:" >> $LOG 2>&1
-    ls "dirs" | cat >> $LOG 2>&1
+    find "dirs" -type d | sed 's/^dirs.\?//' | grep . >> $LOG 2>&1
 fi
 
 exit 0
