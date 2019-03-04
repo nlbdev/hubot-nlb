@@ -43,7 +43,7 @@ echo "Enable debugging output in logs..." >> $LOG 2>&1
 sed -i 's/\(com.xmlcalabash.*\)INFO/\1DEBUG/' etc/config-logback.xml >> $LOG 2>&1
 
 echo "Enabling 4 concurrent jobs..." >> $LOG 2>&1
-sed -i 's/.*\(org.daisy.pipeline.procs\)=[0-9]*/\1=4/' etc/system.properties >> $LOG 2>&1
+sed -i 's/.*\(org.daisy.pipeline.procs\)=[0-9]*/\1=8/' etc/system.properties >> $LOG 2>&1
 
 $DIR/update.engine "$VERSION" force >> $LOG 2>&1
 
